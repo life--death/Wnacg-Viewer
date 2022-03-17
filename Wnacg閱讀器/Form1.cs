@@ -122,15 +122,10 @@ namespace Wnacg閱讀器
                             htmlNodeCollection = htmlDocumentNode.Where((x) => x.NodeType == HtmlNodeType.Element && x.Name == "img" && x.ParentNode.Name == "a");
                             foreach (var item2 in htmlNodeCollection) if (item2.Attributes["src"].Value.StartsWith("//")) imageURL.Add(item2.Attributes["src"].Value);
 
-                            
-                            Console.WriteLine(imageURL.Count);
 
                             htmlNodeCollection2 = htmlDocumentNode.Where((x) => x.NodeType == HtmlNodeType.Element && x.Name == "a" && x.ParentNode.Attributes.Any(x2 => x2.Name == "class" && x2.Value == "pic_box tb")); // 
                             foreach (var item2 in htmlNodeCollection2) listImageViewUrl.Add(item2.Attributes["href"].Value);
-                            Console.WriteLine(listImageViewUrl.Count);
-                            foreach (var temp in listImageViewUrl) Console.WriteLine(temp);
-                            foreach (var temp in imageURL) Console.WriteLine(temp);
-                            Console.WriteLine("hello. here is the listImageViewUrl");
+
                         }
 
                         SetFormText(title.Remove(title.Length - 21));
