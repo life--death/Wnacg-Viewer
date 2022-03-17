@@ -67,23 +67,49 @@ namespace Wnacg閱讀器
 
                     if (listImageViewUrl.Count <= 60)
                     {
-                        for (int i = 0; i < rss.Channel.Item.Count; i++)
+                        //for (int i = 0; i < rss.Channel.Item.Count; i++)
+                        //{
+                        //    if (isCancel) break;
+
+                        //    var item = rss.Channel.Item[i];
+                        //    string url = "https:" + item.Description.Split(new char[] { '\"' })[1];
+
+                        //    if (!File.Exists(savePath + "\\" + Path.GetFileName(url)))
+                        //    {
+                        //        try
+                        //        {
+                        //            SetLabelText(string.Format("{0} ({1}/{2})", title, i.ToString(), rss.Channel.Item.Count));
+                        //            //webClient.DownloadFileAsync(new Uri(url), savePath + "\\" + Path.GetFileName(url));
+                        //            webClient.DownloadFile(new Uri(url), savePath + "\\" + Path.GetFileName(url));
+                        //            evtDownload.WaitOne();
+                        //        }
+                        //        catch (Exception) { }
+                        //    }
+                        //}
+                        HtmlWeb htmlWeb = new HtmlWeb(); int i = 1;
+                        Console.WriteLine(listImageViewUrl.Count);
+                        foreach (string item in listImageViewUrl)
                         {
                             if (isCancel) break;
 
-                            var item = rss.Channel.Item[i];
-                            string url = "https:" + item.Description.Split(new char[] { '\"' })[1];
+                            IEnumerable<HtmlNode> htmlDocumentNode = htmlWeb.Load(string.Format("{0}{1}", serverHost, item)).DocumentNode.Descendants();
+                            string url = "https:" + htmlDocumentNode.First((x) => x.Name == "img" && x.Attributes.Any((x2) => x2.Name == "class" && x2.Value == "photo")).Attributes["src"].Value;
 
                             if (!File.Exists(savePath + "\\" + Path.GetFileName(url)))
                             {
                                 try
                                 {
-                                    SetLabelText(string.Format("{0} ({1}/{2})", title, i.ToString(), rss.Channel.Item.Count));
+                                    SetLabelText(string.Format("{0} ({1}/{2})", title, i.ToString(), listImageViewUrl.Count));
                                     webClient.DownloadFileAsync(new Uri(url), savePath + "\\" + Path.GetFileName(url));
+                                    //webClient.DownloadFile(new Uri(url), savePath + "\\" + Path.GetFileName(url));
+                                    Console.WriteLine(url);
                                     evtDownload.WaitOne();
+                                    Console.WriteLine(item);
                                 }
                                 catch (Exception) { }
                             }
+
+                            i++;
                         }
                     }
                     else
@@ -95,7 +121,7 @@ namespace Wnacg閱讀器
                             if (isCancel) break;
 
                             IEnumerable<HtmlNode> htmlDocumentNode = htmlWeb.Load(string.Format("{0}{1}", serverHost, item)).DocumentNode.Descendants();
-                            string url= "https:" + htmlDocumentNode.First((x) => x.Name == "img" && x.Attributes.Any((x2) => x2.Name == "class" && x2.Value == "photo")).Attributes["src"].Value;
+                            string url = "https:" + htmlDocumentNode.First((x) => x.Name == "img" && x.Attributes.Any((x2) => x2.Name == "class" && x2.Value == "photo")).Attributes["src"].Value;
 
                             if (!File.Exists(savePath + "\\" + Path.GetFileName(url)))
                             {
@@ -103,6 +129,7 @@ namespace Wnacg閱讀器
                                 {
                                     SetLabelText(string.Format("{0} ({1}/{2})", title, i.ToString(), listImageViewUrl.Count));
                                     webClient.DownloadFileAsync(new Uri(url), savePath + "\\" + Path.GetFileName(url));
+                                    //webClient.DownloadFile(new Uri(url), savePath + "\\" + Path.GetFileName(url));
                                     evtDownload.WaitOne();
                                 }
                                 catch (Exception) { }
@@ -110,7 +137,9 @@ namespace Wnacg閱讀器
 
                             i++;
                         }
-                    }                    
+                    }
+
+
                 }
 
                 Invoke(new Action(delegate { Close(); }));

@@ -20,6 +20,7 @@ namespace Wnacg閱讀器
         }
 
         List<string> listImageViewUrl = new List<string>();
+        List<string> imageURL = new List<string>();
         WebClient webClient = new WebClient();
         readonly string serverHost = "https://www.wnacg.org";
         string id = "";
@@ -90,7 +91,7 @@ namespace Wnacg閱讀器
                 if (id != "")
                 {
                     SetFormText("取得資料中...");
-                    List<string> imageURL = new List<string>();
+                    //List<string> imageURL = new List<string>();
                     int totalPage = 0;
 
                     try
@@ -103,7 +104,7 @@ namespace Wnacg閱讀器
                         IEnumerable<HtmlNode> htmlNodeCollection = htmlDocumentNode.Where((x) => x.NodeType == HtmlNodeType.Element && x.Name == "img" && x.ParentNode.Name == "a");
                         foreach (var item in htmlNodeCollection) if (item.Attributes["src"].Value.StartsWith("//")) imageURL.Add(item.Attributes["src"].Value);
 
-                        IEnumerable<HtmlNode> htmlNodeCollection2 = htmlDocumentNode.Where((x) => x.NodeType == HtmlNodeType.Element && x.Name == "a" && x.ParentNode.Attributes.Any(x2 => x2.Name == "class" && x2.Value == "pic_box"));
+                        IEnumerable<HtmlNode> htmlNodeCollection2 = htmlDocumentNode.Where((x) => x.NodeType == HtmlNodeType.Element && x.Name == "a" && x.ParentNode.Attributes.Any(x2 => x2.Name == "class" && x2.Value == "pic_box tb"));
                         foreach (var item in htmlNodeCollection2) listImageViewUrl.Add(item.Attributes["href"].Value);
 
                         try
@@ -120,8 +121,15 @@ namespace Wnacg閱讀器
                             htmlNodeCollection = htmlDocumentNode.Where((x) => x.NodeType == HtmlNodeType.Element && x.Name == "img" && x.ParentNode.Name == "a");
                             foreach (var item2 in htmlNodeCollection) if (item2.Attributes["src"].Value.StartsWith("//")) imageURL.Add(item2.Attributes["src"].Value);
 
-                            htmlNodeCollection2 = htmlDocumentNode.Where((x) => x.NodeType == HtmlNodeType.Element && x.Name == "a" && x.ParentNode.Attributes.Any(x2 => x2.Name == "class" && x2.Value == "pic_box"));
+                            
+                            Console.WriteLine(imageURL.Count);
+
+                            htmlNodeCollection2 = htmlDocumentNode.Where((x) => x.NodeType == HtmlNodeType.Element && x.Name == "a" && x.ParentNode.Attributes.Any(x2 => x2.Name == "class" && x2.Value == "pic_box tb")); // 
                             foreach (var item2 in htmlNodeCollection2) listImageViewUrl.Add(item2.Attributes["href"].Value);
+                            Console.WriteLine(listImageViewUrl.Count);
+                            foreach (var temp in listImageViewUrl) Console.WriteLine(temp);
+                            foreach (var temp in imageURL) Console.WriteLine(temp);
+                            Console.WriteLine("hello. here is the listImageViewUrl");
                         }
 
                         SetFormText(title.Remove(title.Length - 21));
