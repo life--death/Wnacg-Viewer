@@ -40,7 +40,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txt_URL.Location = new System.Drawing.Point(12, 12);
             this.txt_URL.Name = "txt_URL";
-            this.txt_URL.Size = new System.Drawing.Size(939, 22);
+            this.txt_URL.Size = new System.Drawing.Size(939, 21);
             this.txt_URL.TabIndex = 0;
             this.txt_URL.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
@@ -52,6 +52,7 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1044, 572);
             this.panel1.TabIndex = 1;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // btn_Download
             // 

@@ -83,6 +83,7 @@ namespace Wnacg閱讀器
 
             panel1.Controls.Clear();
             listImageViewUrl.Clear();
+            imageURL.Clear();
 
             new Thread(new ThreadStart(delegate
             {
@@ -207,6 +208,11 @@ namespace Wnacg閱讀器
         {
             string[] tempUrl = url.Split(new char[] { '\"' });
             return (tempUrl.Length == 3 ? "https:" + tempUrl[1] : "");
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }    
 }
