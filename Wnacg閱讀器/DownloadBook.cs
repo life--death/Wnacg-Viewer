@@ -60,10 +60,16 @@ namespace Wnacg閱讀器
                     Rss rss = (Rss)serializer.Deserialize(memStream);
                     string title = rss.Channel.Title.Remove(rss.Channel.Title.Length - 26);
 
+
+                    title = string.Concat(title.Split(System.IO.Path.GetInvalidFileNameChars())).Trim();
+
+
                     //savePath += string.Format("\\{0}-{1}", bookID.ToString(), title);
                     savePath += string.Format("\\{0}", title);
 
+
                     if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
+                    
                     else SetLabelText("確認已下載的頁數中...");
 
                     if (listImageViewUrl.Count <= 60)
@@ -88,7 +94,6 @@ namespace Wnacg閱讀器
                         //    }
                         //}
                         HtmlWeb htmlWeb = new HtmlWeb(); int i = 1;
-                        Console.WriteLine(listImageViewUrl.Count);
                         foreach (string item in listImageViewUrl)
                         {
                             if (isCancel) break;
@@ -103,9 +108,7 @@ namespace Wnacg閱讀器
                                     SetLabelText(string.Format("{0} ({1}/{2})", title, i.ToString(), listImageViewUrl.Count));
                                     webClient.DownloadFileAsync(new Uri(url), savePath + "\\" + Path.GetFileName(url));
                                     //webClient.DownloadFile(new Uri(url), savePath + "\\" + Path.GetFileName(url));
-                                    Console.WriteLine(url);
                                     evtDownload.WaitOne();
-                                    Console.WriteLine(item);
                                 }
                                 catch (Exception) { }
                             }
