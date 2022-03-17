@@ -60,7 +60,8 @@ namespace Wnacg閱讀器
                     Rss rss = (Rss)serializer.Deserialize(memStream);
                     string title = rss.Channel.Title.Remove(rss.Channel.Title.Length - 26);
 
-                    savePath += string.Format("\\{0}-{1}", bookID.ToString(), title);
+                    //savePath += string.Format("\\{0}-{1}", bookID.ToString(), title);
+                    savePath += string.Format("\\{0}", title);
 
                     if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
                     else SetLabelText("確認已下載的頁數中...");
